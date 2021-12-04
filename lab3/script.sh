@@ -1,13 +1,15 @@
 #!/bin/bash
-sudo find / -type -l
 
-sudo sed -n '/^Character/, /^$/ { /^$/ !p }' /proc/devices
-sudo sed -n '/^Block/, /^$/ { /^$/ !p }' /proc/devices
+find / -type l -exec ls -la '{}'\;
 
-sudo find . \! -perm /1000
+find / -type b -or -type c | wc -l 
 
-sudo ln -s /etc/hostname /tmp
+find / -type d -perm -1000 -exec ls -ld {} \;
 
-sudo useradd testuser
+ln -s /etc/hostname /tmp/newhostname
 
-sudo touch /home/testuser/testuser_data
+useradd testuser
+
+# Create file in home directory “testuser_data” owned by “testuser”
+touch /home/testuser/testuser_data
+chown testuser:testuser /home/testuser_data
